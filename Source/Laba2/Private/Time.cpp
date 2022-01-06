@@ -72,6 +72,11 @@ int ATime::convertToYear(int hours)
 	return hours / (365 * 24);
 }
 
+float ATime::convertToYearF(int hours)
+{
+	return static_cast<float>(hours) / (365.0 * 24.0);
+}
+
 bool ATime::setInterval(int h, int d, int y)
 {
 	if (!checkIsCorrect(h, d, y))
@@ -139,7 +144,11 @@ bool ATime::checkIsCorrect(int h, int d, int y)
 
 void ATime::multiply(const float coef, ATime*& result)
 {
-	int hours = convertToHoursE(this) * coef;
+	int hours = static_cast<float>(convertToHoursE(this)) * coef;
+
+	if (hours > limit)
+		hours = limit;
+
 	setInterval(ATime::convertToHour(hours), ATime::convertToDay(hours), ATime::convertToYear(hours));
 	result = this;
 }
@@ -228,23 +237,16 @@ void ATime::toHours(int& result)
 	result = convertToHoursE(this);
 }
 
-void ATime::toYears(int& result)
+void ATime::toYears(float& result)
 {
-	result = convertToYear(convertToHoursE(this));
+	result = convertToYearF(convertToHoursE(this));
 }
 
-void ATime::complement(int& result)
+void ATime::complement(int& resultH, int& resultD, int& resultY)
 {
-	result = limit - convertToHoursE(this);
+	int result = limit - convertToHoursE(this);
+	resultH = convertToHour(result);
+	resultD = convertToDay(result);
+	resultY = convertToYear(result);
 }
-
-/*
-void ATime::plus(const ATime* e1, const ATime* e2, int& hour_out, int& day_out, int& year_out)
-{
-	ATime e = &e1 + &e2;
-	hour_out = convertToHour(e);
-	day_out = convertToDay(e);
-	year_out = convertToYear(e);
-}
-*/
 

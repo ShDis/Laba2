@@ -42,6 +42,8 @@ public:
 		static int convertToDay(int hours);
 	UFUNCTION()
 		static int convertToYear(int hours);
+	UFUNCTION()
+		static float convertToYearF(int hours);
 	UFUNCTION(BlueprintCallable)
 		bool setInterval(int h, int d, int y);
 	UFUNCTION(BlueprintCallable, Category = "Time Interval Custom Nodes")
@@ -76,9 +78,9 @@ public:
 	UFUNCTION(BlueprintPure, meta = (CompactNodeTitle = "toHours"), Category = "Time Interval Custom Nodes")
 		void toHours(int& result);
 	UFUNCTION(BlueprintPure, meta = (CompactNodeTitle = "toYears"), Category = "Time Interval Custom Nodes")
-		void toYears(int& result);
+		void toYears(float& result);
 	UFUNCTION(BlueprintPure, meta = (CompactNodeTitle = "~"), Category = "Time Interval Custom Nodes") // дополнение до конца столетия
-		void complement(int& result);
+		void complement(int& resultH, int& resultD, int& resultY);
 
 private:
 	UPROPERTY()
